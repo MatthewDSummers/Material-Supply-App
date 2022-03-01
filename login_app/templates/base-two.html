@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <title>Material Supply</title>
+        <meta name="description" content="This is a Django app for production facility employees to request materials">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        {% load static %}
+        <link rel='stylesheet' type='text/css' href="{% static 'style.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'dark.css' media='(prefers-color-scheme: dark)' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'light.css' media='(prefers-color-scheme: no-preference), (prefers-color-scheme: light)' %}">
+        <script defer src="{% static 'index.js' %}"></script>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Arya&family=Montserrat:wght@300&display=swap');
+            @media (prefers-color-scheme: dark) {
+                :root {
+                    --heading-color: rgb(175, 21, 21);
+                    --color: rgb(177, 177, 177);
+                    --secondary-color: rgb(28, 28, 28);
+                    --background-color: #060606;
+                    --secondary-background-color: #acacac;
+                
+                    --box-shadow: 15px 13px 3px #3a3a3a;
+                    --th: rgb(255, 250, 105);
+                
+                    --pin-color: #e7e7a1;
+                    --pin-crucial: #d50000;
+                    --pin-high: #ac6d00;
+                    --pin-intermediate: #828282;
+                    --pin-low: #c2c2c2;
+                    /* ------------ */
+                    --green: rgb(182, 240, 180);
+                    --lblue: rgb(29, 117, 223);
+                }
+            }
+            @media (prefers-color-scheme: light) {
+                :root {
+                    --heading-color: #0c942a;
+                    --color: #050505;
+                    --secondary-color: #bbbbbb;
+                
+                    --background-color: #cdc4c4;
+                    --secondary-background-color: #c9c9c9;
+                
+                    --box-shadow: 15px 13px 3px #3a3a3a;
+                    --th: #212121;
+                
+                    --pin-color: #000000;
+                    --pin-crucial: #bd0000;
+                    --pin-high: #a56900;
+                    --pin-intermediate: #4f4f4f;
+                    --pin-low: #1d1d1d;
+                    /* --------------- */
+                    --green: #292929;
+                    --lblue: #0040ae;
+                }
+            }
+        </style>
+    </head>
+    <body> 
+        <div class="container">
+            {% if messages %}
+                {% if "success" in request.session.message_status %}
+                <div class="col-12" id="success-new">
+                    <ul class = "success-ul">
+                    <p class="success-p">&#9888;</p>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div> 
+
+                {% else %}
+                
+                <div class="col-12" id="errors-new">
+                    <ul class = "errors-ul">
+                    <p class="error-p">&#9888;</p>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div> 
+                {% endif %}
+            {% endif %}
+            {% block content %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

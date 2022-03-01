@@ -1,0 +1,22 @@
+{% extends 'base-two.html' %}
+{% block content %}
+            <div id="header">
+                <h2 id="header-title"><span class="enlarged">M</span>aterial<span class="enlarged"> S</span>upply <span class="enlarged">S</span>ystem</h2>
+                <a class="signin" href="/">Home</a>
+            </div>
+            <div class="row">
+                <div id="content-1" class="col-sm col-md col-lg">
+                    <h2>Login</h2>
+                    <form action="/login/login" method="POST" id="login">
+                        {% csrf_token %}
+                        <label for="email">Email</label>
+                        <input type="text" name="email" id="email" class="form-control">
+                        
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" class="form-control ">
+                        
+                        <button type="submit" class="btn-lg" style="font-size: 20px;">Login</button>
+                    </form>
+                </div>
+            </div>
+{% endblock %}

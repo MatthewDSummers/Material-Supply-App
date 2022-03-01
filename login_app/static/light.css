@@ -1,0 +1,21 @@
+:root {
+    --heading-color: #0c942a;
+    --color: #050505;
+    --secondary-color: #bbbbbb;
+
+    --background-color: #cdc4c4;
+    --secondary-background-color: #c9c9c9;
+    --secondary-background-color: #636363;
+
+    --box-shadow: 15px 13px 3px #3a3a3a;
+    --th: #212121;
+
+    --pin-color: #000000;
+    --pin-crucial: #bd0000;
+    --pin-high: #a56900;
+    --pin-intermediate: #4f4f4f;
+    --pin-low: #1d1d1d;
+    /* --------------- */
+    --green: #292929;
+    --lblue: #0040ae;
+}

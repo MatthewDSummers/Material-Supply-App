@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+    <div id="create-ticket" class="col-7 move-top">
+        <h2 class="h2">Order Supplies</h2> 
+        {% comment %} <hr> {% endcomment %}
+        <br>
+        <form action="/home/create_order" method="POST" enctype="multipart/form-data"  class="ftrol create-ticket-form" >
+        {% csrf_token %}
+            
+        <div class="field"><span class="bolder larger">
+            <label for="sender" class="black">Requester</label></span>
+            <select name="sender" id="sender" class="select">
+        {% comment %} {% for users in user %} {% endcomment %}
+                <option value={{user.id}}>{{user.full_name}}</option>
+        {% comment %} {% endfor %} {% endcomment %}
+            </select>
+        </div>
+            
+            <br>
+
+
+<div class="field"><span class="bolder larger">
+    <label for="priority" class="black">Priority</label> </span>
+
+            <select name="priority" id="priority" class="select">
+                <option disabled selected value>Select a priority</option>
+                <option value="Low">Low</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="High">High</option>
+                <option value="Crucial">Crucial</option>
+            </select>
+        </div>
+            <br>
+
+            <div class="field"><span class="bolder lager">
+                <label for="category" class="black">Material</label></span>
+            
+            <select name="material" id="category" class="select">
+                <option disabled selected value>Select a material</option>
+        {% for mat in materials %}
+                <option value="{{mat.name}}">{{mat.name}}</option>
+        {% endfor %}
+            </select>
+
+
+        </div>
+            <label for="desc" id="desc-label">Description</label>
+            <textarea name="desc" id="description" class="form-coftrol" rows="6"></textarea>
+            <br>
+            <input type="file" name="image" class="file">
+            <br>
+            <select name="line" id="category" class="select">
+                <option disabled selected value>Select a line</option>
+        {% for line in lines %}
+                <option value="{{line.name}}">{{line.name}}</option>
+        {% endfor %}
+            </select>
+            <button type="submit"  class="btn-blf butn send-ticket" style="font-size: 30px;" formnovalidate>Request</button>
+        </form>
+    </div>
+    <div class="co-1 move-top">
+        {% if user.level == 9 %}
+        <h2 class="h2">Add Material</h2>
+        {% comment %} <hr> {% endcomment %}
+
+        {% csrf_token %}
+        <form method="POST" action="/add-material" class="form-cfontrol" id="new-mat">
+            {% csrf_token %}
+            <div class="field"><span class="bolder larger">
+                <label for="cat-name" class="black">Name your material</label>
+                <input type="text" id="cat-name" class="input" name="mat-name">
+            </div>
+            {% comment %} <br> {% endcomment %}
+            {% comment %} </div> {% endcomment %}
+                <button class="send-category2  butn">Add</button>
+        </form>
+
+
+        <form method="POST" action="/home/remove-category" class="form-cfontrol" id="new-cat">
+            {% csrf_token %}
+        <div class="field"><span class="bolder larger">
+            <label for="category" class="black">Remove Material</label></span>
+
+            <select name="delete-category" id="category" class="select">
+                <option disabled selected value>Select a material</option>
+
+                {% for mat in materials %}
+            <option value="{{mat.id}}">{{mat.name}}</option>
+            {% endfor %}
+            </select>
+            <button class="send-category  butn">Remove</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+
+        {% comment %} <form action="/home/delete-images" method="POST">
+            {% csrf_token %}
+            <button type='submit'>delete all images</button>
+        </form> {% endcomment %}
+        {% comment %} <form action="/home/upload" method='POST' >
+            {% csrf_token %}
+
+        </form> {% endcomment %}
+
+{% endblock %}

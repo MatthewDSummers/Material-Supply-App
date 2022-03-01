@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+        {% comment %} {% if user.level == 9 %} {% endcomment %}
+            {% comment %} <form action="#">
+                <label for="new-link">Add New Resource</label>
+                <input type="text" class="form-control" id="new-link">
+                <button type="button" onClick="addLink()">Add</button>
+            </form> {% endcomment %}
+<!-- Form to add item -->
+
+            <table id="admin-workflow" class="relative">
+                <caption id="caption">User: {{user.full_name}}</caption>
+                <thead>
+                    <tr>
+                        <th>Workflow</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for website in user.websites.all %}
+                    <tr>
+                        <td class="website-td">
+                            <form action="/home/remove-site/{{website.id}}" method="POST" class="remove-website-form">
+                                {% csrf_token %}
+                                
+                                <button type="submit" class="remove-website-btn"><img id="icon-minus" src="{% static 'media/minus2.png' %}" % alt="details">
+                                </button>
+                            </form>
+                            <a href="{{website.content}}" target="blank" class="website-name">{{website.name}}</a>
+                        
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>
+                            <a href="#" class="add-site-trigger"><img id="icon-minus" src="{% static 'media/plus.png' %}" % alt="details"></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        
+                        <td id="">
+                            {% if web_len < 1 %}
+                            <p> Add a link to a frequented website </p>
+                            {% endif %}
+
+                            <form action="/home/new-site" method="POST" id="add-site-div" class="hidden" autocomplete="off">
+                                {% csrf_token %}
+                                <label for="site-name">Resource Name</label>
+                                <br>
+                                <input type="text" id="site-name" name="name" placeholder="Include a title">
+                                <br>
+                                <label for="new-link">Add New Resource</label>
+                                <br>
+                                <input type="text" id="new-link" name="website" placeholder="Add a link">
+                                <br>
+                                <button type="submit" class="add-website-btn">Add</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% comment %} {% endif %} {% endcomment %}
+
+    </div>
+
+    {% comment %} <ol id="parent">
+        <li>List Item 1</li>
+    </ol> {% endcomment %}
+
+
+    <script>
+            /*function newSite(){
+                let trigger = document.getElementById("new-site");
+                let new_site_div = document.getElementById("new-site-div");
+                new_site_div.innerHTML = 
+            }*/
+
+
+
+            $('.add-site-trigger').click(function() {
+                $("#add-site-div").toggle({
+                    width: "toggle"
+                });
+            });
+                /*csrf_token = '{{csrf_token}}'
+                var csrf = document.createElement('input');
+                    csrf.setAttribute("type", 'hidden');
+                    csrf.setAttribute("name", '_csrf');
+                    csrf.setAttribute("value", csrf_token);
+                let new_site_div = document.getElementById('add-site-div');*/
+                /*let form= document.createElement("form");
+                    form.setAttribute('action', '/home/new-site');
+                    form.setAttribute('method', "POST");
+                    form.appendChild(csrf);*/
+                //console.log(csrf)
+                //console.log(form)
+                //new_site_div.appendChild(csrf)
+                //new_site_div.innerHTML = `
+
+            //`
+
+                //new_site_div.innerHTML = form.innerHTML;
+                
+
+            //});
+            /*function addLink() {
+                let site_name = document.getElementById("site-name").value;
+                let site_value = document.getElementById("new-link").value;
+                //console.log(site_value);
+                anchor= document.createElement("a");
+                //console.log(anchor);
+                anchor.setAttribute('href', site_value);
+                //console.log(anchor)
+                anchor.innerText=site_name;
+                result = document.getElementById("parent")
+                console.log(anchor)
+                //result.innerHTML = anchor
+                document.getElementById("parent").appendChild(anchor);
+            }*/
+        </script>
+{% endblock %}

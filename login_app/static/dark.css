@@ -1,0 +1,21 @@
+:root {
+    --heading-color: rgb(175, 21, 21);
+    --color: rgb(177, 177, 177);
+    --secondary-color: rgb(28, 28, 28);
+    --background-color: #060606;
+    --secondary-background-color: #acacac;
+
+    --box-shadow: 15px 13px 3px #3a3a3a;
+    --th: rgb(255, 250, 105);
+
+    --pin-color: #e7e7a1;
+    --pin-crucial: #d50000;
+    --pin-high: #ac6d00;
+    --pin-intermediate: #828282;
+    --pin-low: #c2c2c2;
+    /* ------------ */
+    --green: #b6f0b4;
+    /* --green: rgb(120, 208, 117); */
+    --lblue: rgb(29, 117, 223);
+        /* --portal: radial-gradient(circle at 90%,#674d9b, #370d8a63 50%, #39225988 75%, #200a475d 78%); */
+}

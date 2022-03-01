@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <title>Material Supply System</title>
+        <meta name="description" content="This is a Django app for production facility employees to request materials">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        {% load static %}
+        <link rel="icon" type="image/png" href="{% static 'media/favicon.ico' %}"/>
+
+        <link rel='stylesheet' type='text/css' href="{% static 'style.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'dark.css' media='(prefers-color-scheme: dark)' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'light.css' media='(prefers-color-scheme: no-preference), (prefers-color-scheme: light)' %}">
+        <script defer src="{% static 'index.js' %}"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Arya&family=Montserrat:wght@300&display=swap');
+            @media (prefers-color-scheme: dark) {
+                :root {
+                    --heading-color: rgb(175, 21, 21);
+                    --color: rgb(177, 177, 177);
+                    --secondary-color: rgb(28, 28, 28);
+                    --background-color: #060606;
+                    --secondary-background-color: #acacac;
+                
+                    --box-shadow: 15px 13px 3px #3a3a3a;
+                    --th: rgb(255, 250, 105);
+                
+                    --pin-color: #e7e7a1;
+                    --pin-text: #161616;
+                    --pin-crucial: #d50000;
+                    --pin-high: #ac6d00;
+                    --pin-intermediate: #828282;
+                    --pin-low: #c2c2c2;
+                    /* ------------ */
+                    --green: rgb(182, 240, 180);
+                    --lblue: rgb(29, 117, 223);
+                }
+            }
+            @media (prefers-color-scheme: light) {
+                :root {
+                    --heading-color: #005800;
+                    --color: #050505;
+                    --secondary-color: #bbbbbb;
+                
+                    --background-color: #cdc4c4;
+                    --secondary-background-color: #c9c9c9;
+                    --secondary-background-color: #444444;
+                
+                    --box-shadow: 15px 13px 3px #3a3a3a;
+                    --th: #212121;
+                    
+                    --pin-text: #d8d8d8;
+                    --pin-color: #000000;
+                    --pin-crucial: #bd0000;
+                    --pin-high: #a56900;
+                    --pin-intermediate: #4f4f4f;
+                    --pin-low: #1d1d1d;
+                    /* --------------- */
+                    --green: #292929;
+                    --lblue: #0040ae;
+                }
+            }
+        </style>
+    </head>
+    <body> 
+        <div class="container">
+            {% if messages %}
+                {% if "success" in request.session.message_status %}
+                <div class="col-12" id="success-new">
+                    <ul class = "success-ul">
+                    <p class="success-p">&#9888;</p>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div> 
+
+                {% else %}
+                
+                <div class="col-12" id="errors-new">
+                    <ul class = "errors-ul">
+                    <p class="error-p">&#9888;</p>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div> 
+                {% endif %}
+            {% endif %}
+
+            {% comment %} {% if user.level == 9 %} {% endcomment %}
+            <div class="sidenav">
+                <ul class="nav-links-ul">
+                    <li>
+                        <div class="sidenav-ticket-details">
+                            <a href="#" class="dropdown">
+                                <img class="icon-tickets" src="{% static 'media/tickets.png' %}" % alt="details">
+                                <p class="p-on-purple">Materials</p>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-li">
+                        <div class="nav-cat-div hidden">
+                            <a href="/home/unresolved_tickets" class=" dd-content">Unresolved</a>
+                        </div>
+                    </li>
+                    <li class="nav-li">
+                        <div class="nav-cat-div hidden">
+                            <a href="/home/ticket/hold_page" class="dd-content">Withheld</a>
+                        </div>
+                    </li>
+                    <li class="nav-li">
+                        <div class="nav-cat-div hidden">
+                            <a href="/home/resolved-tickets" class="dd-content">Resolved</a>
+                        </div>
+                    </li>
+                    <li class="nav-li">
+                        <div class="nav-cat-div hidden">
+                            <a href="/home/new_ticket" class="dd-content">New</a>
+                        </div>
+                    </li>
+
+                </ul>
+                    
+                <ul class="nav-links-ul">
+                    <li>
+                        <div class="sidenav-ticket-details">
+                            <a href="#" class="dropdown2">
+                                {% comment %} <img class="icon-tickets" src="{% static 'media/report.png' %}" % alt="details"> {% endcomment %}
+                                <img class="icon-tickets" src="{% static 'media/records.png' %}" % alt="details">
+                                <p class="p-on-purple">Analytics</p>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-li">
+                        <div class="nav-records-div hidden">
+                            <a href="/home/reports-page"class="dd-content">Reports</a>
+                        </div>
+                    </li>
+                </ul>
+
+                <ul class="nav-links-ul">
+                    <li>
+                        <div class="sidenav-ticket-details">
+                            <a href="#" class="dropdown5">
+                                <img class="icon-cabinet" src="{% static 'media/cabinet.png' %}" % alt="details">
+                                {% comment %} <img class="icon-tickets" src="{% static 'media/records.png' %}" % alt="details"> {% endcomment %}
+                                <p class="p-on-purple">Records</p>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-li">
+                        <div class="nav-analytics-div hidden">
+                            <a href="/home/archived_page"class=" dd-content">Archived</a>
+                        </div>
+                    </li>
+                </ul>
+
+
+                <ul class="nav-links-ul">
+                    <li>
+                        <div class="sidenav-ticket-details">
+                            <a href="#" class="dropdown3">
+                                <img class="icon-tickets" src="{% static 'media/user2.png' %}" % alt="details">
+                                <p class="p-on-purple">Users</p>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-li">
+                        <div class="nav-users-div hidden">
+                            <a href="/home/profile/{{user.id}}">Profile</a>
+                        </div>
+                    </li>
+                    <li class="nav-li">
+                        <div class="nav-users-div hidden">
+                            <a href="/home/all-users">Users</a>
+                        </div>
+                    </li>
+                </ul>
+
+                
+
+                <ul class="nav-links-ul">
+                    <li class="nav-li">
+                        <div class="nav-events-div hidden">
+                            <a href="topics_page">Planner</a>
+                        </div>
+                    </li>
+                </ul>
+
+                <a href="/users/logout"class="dropdown">
+                    <img class="icon-tickets" src="{% static 'media/logout.png' %}" % alt="details">
+                    <p class="p-on-purple">Logout</p>
+                </a>
+                
+{% comment %}                     
+                    <br>
+                    <br>
+                    <a href="/home/profile/{{user.id}}">Profile</a>
+                    <a href="/home/all-users">Users</a>
+                    <br>
+                    <a href="/users/logout">Logout</a>
+                    <a href="/home/sidenav">sidenav</a> {% endcomment %}
+                    {% comment %} <button onclick="toggleTheme()">Switch</button> {% endcomment %}
+                    {% comment %} <button onclick="toggleTheme('light.css')">Light Mode</button> {% endcomment %}
+                    {% comment %} <button onclick="toggleTheme('dark.css')">Dark Mode</button> {% endcomment %}
+            </div>
+
+            {% comment %} {% endif %} {% endcomment %}
+
+            {% if user.level == 1 %}
+            <div class="sidenav2">
+                <div class="nav-hofme">
+                        <a href="/home/new_ticket" class="move-top">
+                            <img class="icon-home" src="{% static 'media/home.png' %}" % alt="details">
+                            <p class="p-on-purple">Home</p>
+                        </a>
+                </div>
+                <div class="nav-hofme">
+                    <a href="/home/profile/{{user.id}}" class="move-top">
+                        <img class="icon-home2" src="{% static 'media/user2.png' %}" % alt="details">
+                        <p class="p-on-purple">Profile</p>
+                    </a>
+                </div>
+                <div class="nav-hofme">
+                    <a href="/users/logout"class="dropdown">
+                        <img class="icon-tickets" src="{% static 'media/logout.png' %}" % alt="details">
+                        <p class="p-on-purple">Logout</p>
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% block content %}
+            {% endblock %}
+        </div>
+<script>
+
+
+            //JQUERY
+            $(".dropdown").click(function(){
+                //$('li').removeClass('hidden');
+                $(".nav-cat-div").animate({
+                    width: "toggle"
+                });
+            });
+            $(".dropdown2").click(function(){
+                //$('li').removeClass('hidden');
+                $(".nav-records-div").animate({
+                    width: "toggle"
+                });
+            });
+            $(".dropdown3").click(function(){
+                //$('li').removeClass('hidden');
+                $(".nav-users-div").animate({
+                    width: "toggle"
+                });
+            });
+            $(".dropdown4").click(function(){
+                //$('li').removeClass('hidden');
+                $(".nav-events-div").animate({
+                    width: "toggle"
+                });
+            });
+            $(".dropdown5").click(function(){
+                //$('li').removeClass('hidden');
+                $(".nav-analytics-div").animate({
+                    width: "toggle"
+                });
+            });
+    </script>
+    </body>
+</html>
+
+
+
